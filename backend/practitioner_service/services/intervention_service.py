@@ -1,4 +1,4 @@
-from ..repositories.intervention_repository import InterventionRepository
+from repositories.intervention_repository import InterventionRepository
 
 class InterventionService:
     def __init__(self):

@@ -6,18 +6,21 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from flask import Flask
 from common.db import db
+from common.config import Config
 from common.models import Appointment, PractitionerIntervention
 from routes.appointment_routes import appointment_bp
-from common.config import DATABASE_URI
 
+
+# Initialisation de Flask
 app = Flask(__name__)
 
-# Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Chargement de la configuration depuis `common/config.py`
+app.config.from_object(Config)
 
 # Initialisation de la base de données
 db.init_app(app)
+
+
 
 # Enregistrement des routes pour les rendez-vous
 app.register_blueprint(appointment_bp, url_prefix='/appointments')

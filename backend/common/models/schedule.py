@@ -7,3 +7,6 @@ class Schedule(db.Model):
     unavailable_date = db.Column(db.Date, nullable=False)
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
+
+    def __repr__(self):
+        return f"<Schedule {self.schedule_id} for Practitioner {self.practitioner_id}>"

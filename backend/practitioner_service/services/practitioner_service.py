@@ -1,5 +1,5 @@
-from ..repositories.practitioner_repository import PractitionerRepository
-from ..validations.practitioner_validations import validate_practitioner_data
+from repositories.practitioner_repository import PractitionerRepository
+from validations.practitioner_validations import validate_practitioner_data
 
 class PractitionerService:
     def __init__(self):

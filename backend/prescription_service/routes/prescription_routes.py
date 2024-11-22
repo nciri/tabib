@@ -15,12 +15,9 @@ def create_prescription():
 
 @prescription_bp.route("/prescriptions/<int:prescription_id>/view", methods=["GET"])
 def view_prescription(prescription_id):
-    """
-    Permet de consulter une prescription après vérification des autorisations.
-    """
-    user_role = request.args.get("role")  # Récupération du rôle de l'utilisateur
-    user_id = request.args.get("user_id", type=int)  # ID de l'utilisateur
-    external_code = request.args.get("external_code")  # Code externe pour les tiers
+    user_role = request.args.get("role")
+    user_id = request.args.get("user_id", type=int)
+    external_code = request.args.get("external_code")
 
     details = PrescriptionService.view_prescription(
         prescription_id=prescription_id,
@@ -33,9 +30,5 @@ def view_prescription(prescription_id):
 
 @prescription_bp.route("/prescriptions/<int:prescription_id>/generate-pdf", methods=["GET"])
 def generate_pdf(prescription_id):
-    """
-    Génère un PDF pour une prescription signée.
-    """
     pdf_path = PrescriptionService.generate_prescription_pdf(prescription_id)
     return jsonify({"message": "PDF generated successfully.", "pdf_path": pdf_path}), 200
-

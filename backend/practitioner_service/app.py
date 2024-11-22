@@ -1,14 +1,15 @@
 from flask import Flask
 from common.db import db
+from common.config import Config
 from routes.practitioner_routes import practitioner_bp
 from routes.intervention_routes import intervention_bp
-from common.config import DATABASE_URI
 
+
+# Initialisation de Flask
 app = Flask(__name__)
 
-# Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Chargement de la configuration depuis `common/config.py`
+app.config.from_object(Config)
 
 # Initialisation de la base de données
 db.init_app(app)

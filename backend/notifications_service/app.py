@@ -1,9 +1,9 @@
 from multiprocessing import Process
 from flask import Flask
-from common.config.kafka import KafkaConfig
+from common.config import KafkaConfig
 from routes.notification_routes import notification_bp
 from consumers.email_consumer import process_email_events
-from consumers.sms_consumer import process_sms_events
+from consumers.sms_consumer import main as sms_consumer_main
 import logging
 
 # Configuration des logs
@@ -30,13 +30,13 @@ def start_sms_consumer():
     Lance le consommateur pour traiter les événements liés aux SMS.
     """
     logging.info("Starting SMS consumer...")
-    process_sms_events()
+    sms_consumer_main()
 
 
 if __name__ == "__main__":
     logging.info("Starting notifications_service...")
 
-    # Lancer les consommateurs Kafka ou SQS en parallèle
+    # Lancer les consommateurs Kafka en parallèle en utilisant multiprocessing
     email_process = Process(target=start_email_consumer)
     sms_process = Process(target=start_sms_consumer)
 

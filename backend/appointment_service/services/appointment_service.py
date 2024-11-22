@@ -2,6 +2,7 @@ from common.repositories.assistant_repository import AssistantRepository
 from common.utils.validation import check_availability, check_schedule
 
 from repositories.appointment_repository import AppointmentRepository
+from repositories.schedule_repository import ScheduleRepository
 from validations.appointment_validations import validate_appointment_data
 
 class AppointmentService:
@@ -11,7 +12,6 @@ class AppointmentService:
 
     def get_appointments(self, user_id, role):
         return self.appointment_repository.get_by_role(user_id, role)
-
 
     def create_appointment(self, data, user_id, role):
         # Valider les données
@@ -37,3 +37,36 @@ class AppointmentService:
 
         # Enregistrer le rendez-vous
         return self.appointment_repository.create(data)
+    
+    @staticmethod
+    def get_available_appointments(practitioner_id, date):
+        """
+        Récupère les rendez-vous disponibles pour un praticien à une date donnée,
+        en excluant les créneaux d'indisponibilités.
+        """
+        # Récupérer tous les rendez-vous existants pour le praticien à la date donnée
+        appointments = AppointmentRepository.get_appointments_by_practitioner_and_date(practitioner_id, date)
+
+        # Récupérer les créneaux d'indisponibilités pour le praticien
+        schedules = ScheduleRepository.get_schedules_by_practitioner_and_date(practitioner_id, date)
+
+        # Construire une liste des créneaux indisponibles
+        unavailable_slots = [
+            {"start_time": schedule.start_time, "end_time": schedule.end_time}
+            for schedule in schedules
+        ]
+
+        # Filtrer les rendez-vous pour exclure ceux qui chevauchent les créneaux indisponibles
+        available_appointments = []
+        for appointment in appointments:
+            is_available = all(
+                not (
+                    appointment["start_time"] < slot["end_time"] and
+                    appointment["end_time"] > slot["start_time"]
+                )
+                for slot in unavailable_slots
+            )
+            if is_available:
+                available_appointments.append(appointment)
+
+        return available_appointments

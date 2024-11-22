@@ -1,6 +1,6 @@
 from flask import Flask
 from common.db import db
-from common.config import DATABASE_URI, Config
+from common.config import Config
 from routes.prescription_routes import prescription_bp
 import logging
 

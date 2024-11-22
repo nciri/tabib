@@ -1,7 +1,8 @@
+from common.config import KafkaConfig
 from kafka import KafkaConsumer
 from services.notification_service import NotificationService
 import json
-from config.kafka import KafkaConfig
+
 
 consumer = KafkaConsumer(
     KafkaConfig.TOPICS["user_events"],
