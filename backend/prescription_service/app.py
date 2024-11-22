@@ -1,5 +1,6 @@
 from flask import Flask
 from common.db import db
+from common.config import DATABASE_URI, Config
 from routes.prescription_routes import prescription_bp
 import logging
 
@@ -11,8 +12,9 @@ logging.basicConfig(
 
 # Initialisation de Flask
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///prescriptions.db"  # Changez pour PostgreSQL en prod
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Chargement de la configuration depuis `common/config.py`
+app.config.from_object(Config)
 
 # Initialisation de la base de données
 db.init_app(app)

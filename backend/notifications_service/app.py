@@ -1,6 +1,6 @@
 from multiprocessing import Process
 from flask import Flask
-from config.kafka import KafkaConfig
+from common.config.kafka import KafkaConfig
 from routes.notification_routes import notification_bp
 from consumers.email_consumer import process_email_events
 from consumers.sms_consumer import process_sms_events

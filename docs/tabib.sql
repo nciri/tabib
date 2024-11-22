@@ -148,7 +148,21 @@ CREATE TABLE prescriptions (
         REFERENCES appointments (id) ON DELETE CASCADE
 );
 
-
+CREATE TABLE IF NOT EXISTS prescription_medications
+(
+    medication_id integer NOT NULL DEFAULT nextval('prescription_medications_medication_id_seq'::regclass),
+    prescription_id integer,
+    drug_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    dosage character varying(50) COLLATE pg_catalog."default",
+    frequency character varying(50) COLLATE pg_catalog."default",
+    duration character varying(50) COLLATE pg_catalog."default",
+    instructions text COLLATE pg_catalog."default",
+    CONSTRAINT prescription_medications_pkey PRIMARY KEY (medication_id),
+    CONSTRAINT prescription_medications_prescription_id_fkey FOREIGN KEY (prescription_id)
+        REFERENCES prescriptions (prescription_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+);
 
 
 -- Indexation pour optimiser les recherches
