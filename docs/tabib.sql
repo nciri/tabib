@@ -131,6 +131,26 @@ CREATE TABLE practitioners_assistants (
     FOREIGN KEY (assistant_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+-- Création de la table prescriptions
+CREATE TABLE prescriptions (
+    id SERIAL PRIMARY KEY,                  -- Identifiant unique de la prescription
+    appointment_id INT NOT NULL,            -- Identifiant du rendez-vous (clé étrangère)
+    content TEXT NOT NULL,                  -- Contenu de la prescription
+    is_signed BOOLEAN DEFAULT FALSE,        -- Indique si la prescription est signée
+    external_code VARCHAR(50) UNIQUE,       -- Code unique pour l'accès des tiers
+    external_notes TEXT,                    -- Notes ajoutées par des tiers
+    external_stamp BOOLEAN DEFAULT FALSE,   -- Indique si un cachet a été ajouté par un tiers
+    created_at TIMESTAMP DEFAULT NOW(),     -- Date de création
+    updated_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW(), -- Date de mise à jour
+
+    -- Contraintes de clé étrangère
+    CONSTRAINT fk_appointment FOREIGN KEY (appointment_id)
+        REFERENCES appointments (id) ON DELETE CASCADE
+);
+
+
+
+
 -- Indexation pour optimiser les recherches
 CREATE INDEX idx_practitioner_specialty ON practitioners(specialty);
 CREATE INDEX idx_appointment_date ON appointments(appointment_date);
