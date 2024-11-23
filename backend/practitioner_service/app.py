@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from common.db import db
 from common.config import Config
 from routes.practitioner_routes import practitioner_bp
@@ -7,6 +8,7 @@ from routes.intervention_routes import intervention_bp
 
 # Initialisation de Flask
 app = Flask(__name__)
+CORS(app)
 
 # Chargement de la configuration depuis `common/config.py`
 app.config.from_object(Config)

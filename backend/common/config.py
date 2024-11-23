@@ -14,13 +14,13 @@ class Config:
     # Configuration de la base de données PostgreSQL
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
-        'postgresql://postgres:postgres@localhost/tabibdb'
+        'postgresql://postgres:%20@localhost/tabibdb'
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Autres configurations (si nécessaire)
     DEBUG = True
-    SECRET_KEY = os.getenv("SECRET_KEY", "your_secret_key")
+    SECRET_KEY = os.getenv("SECRET_KEY", "theorca")
 
 class KafkaConfig:
     BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")

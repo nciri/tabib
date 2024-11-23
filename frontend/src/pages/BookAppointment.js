@@ -24,7 +24,7 @@ const BookAppointment = () => {
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/doctors/${id}`);
+        const response = await fetch(`http://localhost:5001/practitioners/${id}`);
         if (!response.ok) throw new Error('Failed to fetch doctor details');
         const data = await response.json();
         setDoctor(data);
