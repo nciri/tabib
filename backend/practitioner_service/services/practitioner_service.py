@@ -8,7 +8,7 @@ class PractitionerService:
 
     def get_user_data(self, user_id):
         try:
-            response = requests.get(f'http://localhost:5005/users/{user_id}')
+            response = requests.get(f'http://localhost:5001/users/{user_id}')
             if response.ok:
                 return response.json()
             print(f"Failed to get user data: {response.status_code}")
