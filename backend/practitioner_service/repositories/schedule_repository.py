@@ -16,11 +16,8 @@ class ScheduleRepository:
 
     @staticmethod
     def get_schedules_by_practitioner(practitioner_id):
-        query = Schedule.query.filter_by(practitioner_id=practitioner_id)
-        print(query)
-        exit
-        result = query.all()
-        return result
+        return Schedule.query.filter_by(practitioner_id=practitioner_id).all()
+
 
     @staticmethod
     def get_schedules_by_practitioner_and_date(practitioner_id, date):
