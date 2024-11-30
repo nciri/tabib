@@ -1,0 +1,10 @@
+
+backend/env/
+
+backend/appointment_service/services/__pycache__/
+
+backend/common/repositories/__pycache__/
+
+__pycache__/
+*.pyc
+*.pyo
