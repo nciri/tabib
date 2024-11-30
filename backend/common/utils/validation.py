@@ -9,7 +9,7 @@ def check_availability(practitioner_id, start_time, end_time):
             Appointment.practitioner_id == practitioner_id,
             Appointment.status == 'scheduled',
             Appointment.appointment_date < end_time,
-            (Appointment.appointment_date + timedelta(minutes=Appointment.duration)) > start_time
+            (Appointment.appointment_date + timedelta(minutes=Appointment.duration_minutes)) > start_time
         )
     ).first()
     return conflicting_appointment is None
