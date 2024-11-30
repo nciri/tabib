@@ -11,14 +11,11 @@ export const useSearchDoctors = () => {
       setLoading(true);
       setError(null);
       
-      const response = await axios.get('http://localhost:5001/practitioners/search', {
+      const response = await axios.get('http://localhost:5000/api/doctors/search', {
         params: {
           type: searchType,
           term: searchTerm,
           location: location
-        },
-        headers: {
-          'Content-Type': 'application/json'
         }
       });
 
