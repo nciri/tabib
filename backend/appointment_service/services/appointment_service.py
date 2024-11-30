@@ -1,5 +1,7 @@
 from common.repositories.assistant_repository import AssistantRepository
 from common.utils.validation import check_availability, check_schedule
+from services.patient_api import PatientApi
+from services.practitioner_api import PractitionerApi
 
 from repositories.appointment_repository import AppointmentRepository
 from repositories.schedule_repository import ScheduleRepository
@@ -70,3 +72,31 @@ class AppointmentService:
                 available_appointments.append(appointment)
 
         return available_appointments
+    
+    @staticmethod
+    def get_appointment(appointment_id):
+        """
+        Récupère les détails du rendez-vous, y compris les informations sur le patient.
+        """
+        
+        try:
+            # Récupérer les informations de l'appointment depuis la base
+            appointment = AppointmentRepository.get_appointment(appointment_id)
+
+            if not appointment:
+                return None
+
+            patient = PatientApi.get_patient(appointment.patient_id)
+            practitioner = PractitionerApi.get_practitioner(appointment.practitioner_id)
+                
+            
+            return {
+                        "appointment_id": appointment.appointment_id,
+                        "appointment_date": appointment.appointment_date,
+                        "duration": appointment.duration,
+                        "patient": patient, # Détails du patient récupérés via l'API
+                        "practitioner": practitioner # Détails du Practicien récupérés via l'API
+                    }
+        except Exception as e:
+            print(f"Error getting data: {str(e)}")
+            return None

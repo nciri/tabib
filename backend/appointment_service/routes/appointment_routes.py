@@ -37,3 +37,11 @@ def get_available_appointments():
 
     available_appointments = AppointmentService.get_available_appointments(practitioner_id, date)
     return jsonify(available_appointments), 200
+
+@appointment_bp.route('/<int:id>', methods=['GET'])
+def get_appointment(id):
+    """
+    Récupère les détails d'un rendez-vous y inclu les informations du patient.
+    """
+    result = appointment_service.get_appointment(id)
+    return jsonify(result), 200 if result else 404

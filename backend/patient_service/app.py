@@ -17,4 +17,4 @@ app.register_blueprint(patient_bp, url_prefix='/patients')
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='127.0.0.1', port=5003, debug=True)
+    app.run(host=Config.HOST, port=5003, debug=True)

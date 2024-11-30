@@ -33,7 +33,7 @@ def search_practitioners():
 
 @practitioner_bp.route('/<int:practitioner_id>', methods=['GET'])
 def get_practitioner(practitioner_id):
-    practitioner = practitioner_service.get_practitioner_by_id(practitioner_id)
+    practitioner = practitioner_service.get_practitioner(practitioner_id)
     if not practitioner:
         return jsonify({'error': 'Practitioner not found'}), 404
     return jsonify(practitioner), 200

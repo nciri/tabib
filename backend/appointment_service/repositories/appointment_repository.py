@@ -40,9 +40,13 @@ class AppointmentRepository:
             practitioner_id=data['practitioner_id'],
             intervention_type_id=data['intervention_type_id'],
             appointment_date=data['appointment_date'],
-            duration_minutes=data.get('duration_minutes'),
+            duration=data.get('duration'),
             status=data.get('status', 'scheduled')
         )
         db.session.add(appointment)
         db.session.commit()
         return {'success': True, 'appointment_id': appointment.appointment_id}
+
+    def get_appointment(appointment_id):
+        result = Appointment.query.get(appointment_id)
+        return result

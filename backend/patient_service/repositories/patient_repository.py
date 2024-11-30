@@ -18,5 +18,5 @@ class PatientRepository:
         db.session.commit()
         return patient
 
-    def get_by_id(self, patient_id):
-        return Patient.query.get(patient_id)
+    def get_patient(self, id):
+        return Patient.query.get(id)

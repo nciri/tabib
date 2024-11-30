@@ -21,10 +21,11 @@ def create_patient():
     result = patient_service.create_patient(data)
     return jsonify(result), 201 if result.get('success') else 400
 
-@patient_bp.route('/<int:patient_id>', methods=['GET'])
-def get_patient(patient_id):
+@patient_bp.route('/<int:id>', methods=['GET'])
+def get_patient(id):
     """
     Récupère les détails d'un patient spécifique.
     """
-    result = patient_service.get_patient_by_id(patient_id)
+    result = patient_service.get_patient(id)
     return jsonify(result), 200 if result else 404
+

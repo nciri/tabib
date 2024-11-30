@@ -9,7 +9,7 @@ class PatientService:
         patients = self.patient_repository.get_all()
         return [
             {
-                'patient_id': patient.patient_id,
+                'id': patient.id,
                 'user_id': patient.user_id,
                 'name': patient.name.decode('utf-8') if patient.name else None,
                 'address': patient.address.decode('utf-8') if patient.address else None,
@@ -27,14 +27,14 @@ class PatientService:
 
         # Création du patient
         patient = self.patient_repository.create(data)
-        return {'success': True, 'patient_id': patient.patient_id}
+        return {'success': True, 'id': patient.id}
 
-    def get_patient_by_id(self, patient_id):
-        patient = self.patient_repository.get_by_id(patient_id)
+    def get_patient(self, id):
+        patient = self.patient_repository.get_patient(id)
         if not patient:
             return None
         return {
-            'patient_id': patient.patient_id,
+            'id': patient.id,
             'user_id': patient.user_id,
             'name': patient.name.decode('utf-8') if patient.name else None,
             'address': patient.address.decode('utf-8') if patient.address else None,
@@ -42,3 +42,5 @@ class PatientService:
             'allergies': patient.allergies.decode('utf-8') if patient.allergies else None,
             'emergency_contact': patient.emergency_contact.decode('utf-8') if patient.emergency_contact else None
         }
+    
+    

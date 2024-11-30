@@ -18,5 +18,5 @@ class PractitionerRepository:
         db.session.commit()
         return practitioner
 
-    def get_by_id(self, practitioner_id):
+    def get(self, practitioner_id):
         return Practitioner.query.get(practitioner_id)

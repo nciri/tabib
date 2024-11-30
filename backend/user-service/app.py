@@ -26,4 +26,4 @@ app.register_blueprint(user_bp, url_prefix='/users')
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='127.0.0.1', port=5005, debug=True)
+    app.run(host=Config.HOST, port=5005, debug=True)

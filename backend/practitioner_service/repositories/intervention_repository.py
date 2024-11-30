@@ -9,7 +9,7 @@ class InterventionRepository:
         intervention = PractitionerIntervention(
             practitioner_id=data['practitioner_id'],
             intervention_type_id=data['intervention_type_id'],
-            duration_minutes=data['duration_minutes'],
+            duration=data['duration'],
             cost=data.get('cost')
         )
         db.session.add(intervention)

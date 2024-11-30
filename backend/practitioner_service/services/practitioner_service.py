@@ -85,8 +85,8 @@ class PractitionerService:
         # For now, return default availability
         return "Available"
 
-    def get_practitioner_by_id(self, practitioner_id):
-        practitioner = self.practitioner_repository.get_by_id(practitioner_id)
+    def get_practitioner(self, practitioner_id):
+        practitioner = self.practitioner_repository.get(practitioner_id)
         if not practitioner:
             return None
         

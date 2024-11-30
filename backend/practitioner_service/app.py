@@ -25,6 +25,5 @@ app.register_blueprint(schedule_bp, url_prefix='/schedules')
 
 if __name__ == '__main__':
     with app.app_context():
-        print(app.url_map)
         db.create_all()
-    app.run(host='127.0.0.1', port=5001, debug=True)
+    app.run(host=Config.HOST, port=5002, debug=True)
