@@ -4,19 +4,20 @@ class Config:
     # Configuration de la base de données PostgreSQL
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
-        'postgresql://postgres:postgres@localhost/tabibdb'
+        'postgresql://postgres:%20@localhost/tabibdb'
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # Autres configurations (si nécessaire)
     DEBUG = True
     SECRET_KEY = os.getenv("SECRET_KEY", "theorca")
     HOST = "127.0.0.1"
+    # Service URLs
     
     MICROSERVICES_URLS = {
         "appointment_service": os.getenv("APPOINTMENT_SERVICE_URL", "http://localhost:5001"),
         "practitioner_service": os.getenv("PRACTITIONER_SERVICE_URL", "http://localhost:5002"),
         "patient_service": os.getenv("PATIENT_SERVICE_URL", "http://localhost:5003"),
-        "user_service": os.getenv("USER_SERVICE_URL", "http://localhost:5005")
+        "user_service": os.getenv("USER_SERVICE_URL", "http://localhost:5005"),
     
     }
 
