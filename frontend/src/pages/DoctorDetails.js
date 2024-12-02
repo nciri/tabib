@@ -21,7 +21,7 @@ const DoctorDetails = () => {
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/practitioners/${id}`);
+        const response = await fetch(`http://localhost:5002/practitioners/${id}`);
         if (!response.ok) throw new Error('Failed to fetch doctor details');
         const data = await response.json();
         setDoctor(data);
