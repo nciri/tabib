@@ -5,7 +5,7 @@ class UserService:
     @staticmethod
     def get_user_data(user_id):
         try:
-            user_service_url = Config.USER_SERVICE_URL
+            user_service_url = Config.MICROSERVICES_URLS["user_service"]
             response = requests.get(f'{user_service_url}/users/{user_id}')
             if response.ok:
                 return response.json()

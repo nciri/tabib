@@ -185,7 +185,7 @@ const SearchDoctor = () => {
                   {results.map((doctor) => (
                     <ListItem
                       key={doctor.id}
-                      button
+                      component="button"
                       onClick={() => handleDoctorClick(doctor.id)}
                       sx={{
                         '&:hover': {
@@ -201,11 +201,11 @@ const SearchDoctor = () => {
                       <ListItemText
                         primary={doctor.name}
                         secondary={
-                          <Box>
-                            <Typography variant="body2" color="text.secondary">
+                          <Typography component="div" variant="body2">
+                            <Typography component="span" variant="body2" color="text.secondary">
                               {doctor.specialty}
                             </Typography>
-                            <Box sx={{ mt: 1 }}>
+                            <Box component="span" sx={{ display: 'block', mt: 1 }}>
                               <Chip
                                 size="small"
                                 label={doctor.availability}
@@ -218,7 +218,7 @@ const SearchDoctor = () => {
                                 icon={<LocationOn />}
                               />
                             </Box>
-                          </Box>
+                          </Typography>
                         }
                       />
                     </ListItem>
