@@ -24,7 +24,7 @@ CREATE TABLE practitioners (
 
 -- Table des patients
 CREATE TABLE patients (
-    patient_id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     medical_history TEXT,
     allergies TEXT,
@@ -43,7 +43,7 @@ CREATE TABLE practitioner_interventions (
     practitioner_intervention_id SERIAL PRIMARY KEY,
     practitioner_id INT REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
     intervention_type_id INT REFERENCES intervention_types(intervention_type_id) ON DELETE CASCADE,
-    duration_minutes INT CHECK (duration_minutes > 0), -- Durée spécifique de l'intervention pour ce praticien en minutes
+    duration INT CHECK (duration > 0), -- Durée spécifique de l'intervention pour ce praticien en minutes
     cost DECIMAL(10, 2) -- Optionnel : Coût spécifique de l'intervention pour ce praticien
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE appointments (
     practitioner_id INT REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
     intervention_type_id INT REFERENCES intervention_types(intervention_type_id) ON DELETE CASCADE,
     appointment_date TIMESTAMP NOT NULL,
-    duration_minutes INT CHECK (duration_minutes > 0), -- Durée de l'intervention pour cet appointement
+    duration INT CHECK (duration > 0), -- Durée de l'intervention pour cet appointement
     status VARCHAR(20) CHECK (status IN ('scheduled', 'cancelled', 'completed', 'missed')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
