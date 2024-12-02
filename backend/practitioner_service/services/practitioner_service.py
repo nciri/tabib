@@ -5,21 +5,7 @@ from common.services.user_service import UserService
 class PractitionerService:
     def __init__(self):
         self.practitioner_repository = PractitionerRepository()
-<<<<<<< HEAD
-
-    def get_user_data(self, user_id):
-        try:
-            response = requests.get(f'http://localhost:5001/users/{user_id}')
-            if response.ok:
-                return response.json()
-            print(f"Failed to get user data: {response.status_code}")
-            return None
-        except Exception as e:
-            print(f"Error getting user data: {str(e)}")
-            return None
-=======
         self.user_service = UserService()
->>>>>>> 7c15b3c (refactor: moved user service to common and updated practitioner service)
 
     def get_all_practitioners(self):
         practitioners = self.practitioner_repository.get_all()
@@ -67,12 +53,11 @@ class PractitionerService:
                 'image': user_data.get('image') if user_data else None
             }
             
-            # Filter based on search criteria
-            if search_term and search_type == 'doctor':
-                if search_term.lower() not in doctor['name'].lower():
-                    continue
-            elif search_term and search_type == 'specialty':
-                if search_term.lower() not in doctor['specialty'].lower():
+            # Search across all fields when search_type is 'all'
+            if search_term and search_type == 'all':
+                search_term_lower = search_term.lower()
+                if (search_term_lower not in doctor['name'].lower() and
+                    search_term_lower not in doctor['specialty'].lower()):
                     continue
                 
             if location and location.strip():

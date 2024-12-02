@@ -28,23 +28,15 @@ import { useSearchDoctors } from '../hooks/useSearchDoctors';
 import { useNavigate } from 'react-router-dom';
 
 const SearchDoctor = () => {
-  const [location, setLocation] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [location, setLocation] = useState('');
   const [showResults, setShowResults] = useState(false);
   const { results, loading, error, searchDoctors } = useSearchDoctors();
   const navigate = useNavigate();
 
-  const searchTypes = [
-    { label: 'Doctor', value: 'doctor', icon: <Person /> },
-    { label: 'Specialty', value: 'specialty', icon: <LocalHospital /> },
-    { label: 'Hospital', value: 'hospital', icon: <LocalHospital /> }
-  ];
-
-  const [selectedSearchType, setSelectedSearchType] = useState(searchTypes[0]);
-
   const handleSearch = () => {
     if (searchTerm.trim() || location.trim()) {
-      searchDoctors(selectedSearchType.value, searchTerm, location);
+      searchDoctors('all', searchTerm, location);
       setShowResults(true);
     }
   };
@@ -81,41 +73,13 @@ const SearchDoctor = () => {
             borderColor: 'primary.dark'
           }}
         >
-          <Autocomplete
-            value={selectedSearchType}
-            options={searchTypes}
-            getOptionLabel={(option) => option.label}
-            sx={{ width: 200 }}
-            renderInput={(params) => (
-              <TextField {...params} label="Search by" variant="standard" />
-            )}
-            renderOption={(props, option) => (
-              <Box 
-                key={option.value}
-                component="li" 
-                sx={{ display: 'flex', alignItems: 'center' }} 
-                {...props}
-              >
-                {option.icon}
-                <Box sx={{ ml: 2 }}>{option.label}</Box>
-              </Box>
-            )}
-            onChange={(_, newValue) => {
-              if (newValue) {
-                setSelectedSearchType(newValue);
-              }
-            }}
-            isOptionEqualToValue={(option, value) => option.value === value.value}
-          />
-          
-          <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-          
           <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            placeholder={`Search ${selectedSearchType.label}...`}
+            sx={{ ml: 1, flex: 1.5 }}
+            placeholder="Search doctors, specialties, hospitals..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyPress={handleKeyPress}
+            startAdornment={<SearchIcon color="action" sx={{ mr: 1 }} />}
           />
           
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
