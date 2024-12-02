@@ -1,10 +1,11 @@
 from repositories.practitioner_repository import PractitionerRepository
 from validations.practitioner_validations import validate_practitioner_data
-import requests
+from common.services.user_service import UserService
 
 class PractitionerService:
     def __init__(self):
         self.practitioner_repository = PractitionerRepository()
+<<<<<<< HEAD
 
     def get_user_data(self, user_id):
         try:
@@ -16,6 +17,9 @@ class PractitionerService:
         except Exception as e:
             print(f"Error getting user data: {str(e)}")
             return None
+=======
+        self.user_service = UserService()
+>>>>>>> 7c15b3c (refactor: moved user service to common and updated practitioner service)
 
     def get_all_practitioners(self):
         practitioners = self.practitioner_repository.get_all()
@@ -52,8 +56,7 @@ class PractitionerService:
         results = []
         
         for practitioner in practitioners:
-            # Get user data from user service
-            user_data = self.get_user_data(practitioner.user_id)
+            user_data = UserService.get_user_data(practitioner.user_id)
             
             doctor = {
                 'id': practitioner.practitioner_id,
@@ -91,7 +94,7 @@ class PractitionerService:
             return None
         
         # Get user data
-        user_data = self.get_user_data(practitioner.user_id)
+        user_data = UserService.get_user_data(practitioner.user_id)
         
         return {
             'id': practitioner.practitioner_id,
