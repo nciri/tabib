@@ -89,5 +89,7 @@ class PractitionerService:
             'bio': practitioner.bio,
             'experience_years': practitioner.experience_years,
             'consultation_fee': float(practitioner.consultation_fee) if practitioner.consultation_fee else None,
-            'availability': self.get_availability(practitioner.practitioner_id)
+            'availability': self.get_availability(practitioner.practitioner_id),
+            'phone': user_data.get('phone') if user_data else None,
+            'email': user_data.get('email') if user_data else None
         }

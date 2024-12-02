@@ -13,13 +13,19 @@ def list_appointments():
 
     return appointment_service.get_appointments(user_id, role)
 
-@appointment_bp.route('/', methods=['POST'])
+@appointment_bp.route('/appointments', methods=['POST'])
 def create_appointment():
     """
     Crée un nouveau rendez-vous après validation.
     """
     data = request.json
-    result = appointment_service.create_appointment(data)
+    user_id = data.pop('user_id', None)
+    role = data.pop('role', None)
+    
+    if not user_id or not role:
+        return jsonify({'error': 'Missing user_id or role'}), 400
+        
+    result = appointment_service.create_appointment(data, user_id, role)
     return jsonify(result), 201 if result.get('success') else 400
 
 

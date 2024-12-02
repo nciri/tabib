@@ -8,8 +8,14 @@ from routes.appointment_routes import appointment_bp
 
 # Initialisation de Flask
 app = Flask(__name__)
-CORS(app)
-
+CORS(app, resources={
+    r"/appointments/*": {
+        "origins": ["http://localhost:3000"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
+    }
+})
 # Chargement de la configuration depuis `common/config.py`
 app.config.from_object(Config)
 
@@ -19,7 +25,7 @@ db.init_app(app)
 
 
 # Enregistrement des routes pour les rendez-vous
-app.register_blueprint(appointment_bp, url_prefix='/appointments')
+app.register_blueprint(appointment_bp)
 
 if __name__ == '__main__':
     with app.app_context():
