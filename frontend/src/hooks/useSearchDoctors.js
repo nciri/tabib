@@ -11,7 +11,7 @@ export const useSearchDoctors = () => {
       setLoading(true);
       setError(null);
       
-      const response = await axios.get('http://localhost:5001/practitioners/search', {
+      const response = await axios.get('http://localhost:5002/practitioners/search', {
         params: {
           type: searchType,
           term: searchTerm,

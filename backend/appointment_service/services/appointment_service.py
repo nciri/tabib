@@ -1,44 +1,59 @@
 from common.repositories.assistant_repository import AssistantRepository
 from common.utils.validation import check_availability, check_schedule
-from services.patient_api import PatientApi
-from services.practitioner_api import PractitionerApi
+from appointment_service.services.patient_api import PatientApi
+from appointment_service.services.practitioner_api import PractitionerApi
 
-from repositories.appointment_repository import AppointmentRepository
-from repositories.schedule_repository import ScheduleRepository
-from validations.appointment_validations import validate_appointment_data
+from appointment_service.repositories.appointment_repository import AppointmentRepository
+from appointment_service.repositories.schedule_repository import ScheduleRepository
+from appointment_service.validations.appointment_validations import validate_appointment_data
+
+from datetime import datetime, timedelta
 
 class AppointmentService:
     def __init__(self):
         self.appointment_repository = AppointmentRepository()
         self.assistant_practitioner_repository = AssistantRepository()
+        self.schedule__repository = ScheduleRepository()
 
     def get_appointments(self, user_id, role):
         return self.appointment_repository.get_by_role(user_id, role)
 
-    def create_appointment(self, data, user_id, role):
+    from datetime import datetime, timedelta
+
+    def create_appointment(self, data, user_id, role="patient"):
+        """
+        Crée un rendez-vous après validation.
+        """
         # Valider les données
         validation_result = validate_appointment_data(data)
-        if not validation_result['success']:
+        if not validation_result["success"]:
             return validation_result
 
-        # Si l'utilisateur est un assistant, vérifier qu'il est autorisé
-        if role == 'assistant':
-            practitioner_id = data.get('practitioner_id')
-            if not self.assistant_practitioner_repository.is_associated(user_id, practitioner_id):
-                return {'success': False, 'error': 'You are not authorized to create appointments for this practitioner'}
+        if not user_id or not role:
+            return {"success": False, "error": "Missing user_id or role"}
+
+        # Vérifier le champ appointment_date
+        try:
+            appointment_date = datetime.strptime(data["appointment_date"], "%Y-%m-%dT%H:%M:%S")
+            data["appointment_date"] = appointment_date
+        except ValueError:
+            return {"success": False, "error": "Invalid appointment_date format. Expected: YYYY-MM-DDTHH:MM:SS"}
 
         # Vérification des disponibilités et indisponibilités
-        practitioner_id = data['practitioner_id']
-        appointment_date = data['appointment_date']
+        practitioner_id = data["practitioner_id"]
+        duration = data.get("duration")
 
         if not check_availability(practitioner_id, appointment_date):
-            return {'success': False, 'error': 'The practitioner is not available at this time'}
-
-        if not check_schedule(practitioner_id, appointment_date):
-            return {'success': False, 'error': 'The appointment falls within an unavailable schedule'}
+            return {"success": False, "error": "The practitioner is not available at this time"}
+        
+        # if not check_schedule(practitioner_id, appointment_date, duration):
+        #     return {"success": False, "error": "The appointment falls within an unavailable schedule"}
 
         # Enregistrer le rendez-vous
-        return self.appointment_repository.create(data)
+        repository = AppointmentRepository()
+        return repository.create(data)
+
+
     
     @staticmethod
     def get_available_appointments(practitioner_id, date):

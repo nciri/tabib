@@ -79,7 +79,7 @@ function Header() {
               fontWeight: 'bold'
             }}
           >
-            HealthCare Platform
+            Tabib
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button 
