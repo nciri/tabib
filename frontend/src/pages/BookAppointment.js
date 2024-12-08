@@ -98,17 +98,19 @@ const BookAppointment = () => {
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem('token');
+      //const token = localStorage.getItem('token');
+      const token = "mocked.jwt.token";
+
       if (!token) {
         navigate('/login', { 
           state: { message: 'Please login to book an appointment', returnUrl: `/book-appointment/${id}` }
         });
         return;
       }
+  
+      //const decodedToken = JSON.parse(atob(token.split('.')[1]));
 
-      const decodedToken = JSON.parse(atob(token.split('.')[1]));
-      
-      const response = await fetch('http://localhost:5001/appointments', {
+      const response = await fetch('/appointment/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,20 +118,30 @@ const BookAppointment = () => {
         },
         body: JSON.stringify({
           ...appointment,
-          user_id: decodedToken.id,
-          role: decodedToken.type || decodedToken.role
+          // user_id: decodedToken.id,
+          // role: decodedToken.type || decodedToken.role
+          user_id: 3,
+          role: "patient"
         })
       });
-
-      if (!response.ok) throw new Error('Failed to book appointment');
-      
-      navigate('/appointments', { 
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Server Error:', errorData);
+        throw new Error(errorData.message || 'Failed to book appointment');
+      }
+      const data = await response.json();
+      console.log('Success:', data);
+  
+      navigate('/appointment', { 
         state: { message: 'Appointment request sent successfully!' }
       });
     } catch (err) {
+      console.error('Error:', err);
       setError(err.message);
     }
   };
+  
 
   const renderStepContent = (step) => {
     switch (step) {

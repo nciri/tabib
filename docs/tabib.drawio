@@ -1,0 +1,146 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3">
+  <diagram name="Page-1" id="JJk76XikFF3pDYe6fPp7">
+    <mxGraphModel dx="1434" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yyHypevR-P8oDc50jZxH-8" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Kafka" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.kafka;" vertex="1" parent="1">
+          <mxGeometry x="716.7" y="482" width="56.699999999999996" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-9" value="Amazon S3&lt;br&gt;(Documents storage)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.s3;" vertex="1" parent="1">
+          <mxGeometry x="230" y="655" width="80" height="123" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-10" value="Amazon API Gateway" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.api_gateway;" vertex="1" parent="1">
+          <mxGeometry x="379" y="145" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=1;entryDx=0;entryDy=0;endArrow=classic;endFill=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-11" target="yyHypevR-P8oDc50jZxH-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-11" value="PostgreSQL" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/databases/Azure_Database_PostgreSQL_Server.svg;" vertex="1" parent="1">
+          <mxGeometry x="520" y="661" width="48" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-19" target="yyHypevR-P8oDc50jZxH-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-19" value="" style="shape=mxgraph.sap.icon;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeWidth=1;strokeColor=#D5DADD;fillColor=#EDEFF0;gradientColor=#FCFCFC;gradientDirection=west;aspect=fixed;SAPIcon=SAP_Mobile_Services" vertex="1" parent="1">
+          <mxGeometry x="525" y="90" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-20" target="yyHypevR-P8oDc50jZxH-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="295" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-20" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Managed_Desktop.svg;" vertex="1" parent="1">
+          <mxGeometry x="270" y="97" width="50" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-40" value="" style="endArrow=none;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;startFill=1;endFill=0;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-45" target="yyHypevR-P8oDc50jZxH-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="450" as="sourcePoint" />
+            <mxPoint x="440" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-46" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.058;entryY=0.619;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-45" target="yyHypevR-P8oDc50jZxH-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="450" as="sourcePoint" />
+            <mxPoint x="440" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-48" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.202;exitY=1.005;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-45" target="yyHypevR-P8oDc50jZxH-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="450" as="sourcePoint" />
+            <mxPoint x="440" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-51" target="yyHypevR-P8oDc50jZxH-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-51" target="yyHypevR-P8oDc50jZxH-19">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-51" value="Patients" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="404" y="30" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-57" target="yyHypevR-P8oDc50jZxH-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="295" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-57" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Managed_Desktop.svg;" vertex="1" parent="1">
+          <mxGeometry x="270" y="253" width="50" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="yyHypevR-P8oDc50jZxH-58" target="yyHypevR-P8oDc50jZxH-57">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-58" value="Doctors and assistants" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="241" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-62" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="169" y="398" width="500" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-45" value="" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=12 12;" vertex="1" parent="yyHypevR-P8oDc50jZxH-62">
+          <mxGeometry width="500" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-12" value="Notification&#xa;Service" style="shape=ellipse;fillColor=#A56EFF;aspect=fixed;resizable=0;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;fontSize=14;" vertex="1" parent="yyHypevR-P8oDc50jZxH-62">
+          <mxGeometry x="83" y="116" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-13" value="" style="fillColor=#ffffff;strokeColor=none;dashed=0;outlineConnect=0;html=1;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;part=1;movable=0;resizable=0;rotatable=0;shape=mxgraph.ibm_cloud.microservices--1" vertex="1" parent="yyHypevR-P8oDc50jZxH-12">
+          <mxGeometry width="24" height="24" relative="1" as="geometry">
+            <mxPoint x="12" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-15" value="Prescription&#xa;Service" style="shape=ellipse;fillColor=#A56EFF;aspect=fixed;resizable=0;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;fontSize=14;" vertex="1" parent="yyHypevR-P8oDc50jZxH-62">
+          <mxGeometry x="230" y="116" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-16" value="" style="fillColor=#ffffff;strokeColor=none;dashed=0;outlineConnect=0;html=1;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;part=1;movable=0;resizable=0;rotatable=0;shape=mxgraph.ibm_cloud.microservices--1" vertex="1" parent="yyHypevR-P8oDc50jZxH-15">
+          <mxGeometry width="24" height="24" relative="1" as="geometry">
+            <mxPoint x="12" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-17" value="Analyse &#xa;Service" style="shape=ellipse;fillColor=#A56EFF;aspect=fixed;resizable=0;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;fontSize=14;" vertex="1" parent="yyHypevR-P8oDc50jZxH-62">
+          <mxGeometry x="375" y="116" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-18" value="" style="fillColor=#ffffff;strokeColor=none;dashed=0;outlineConnect=0;html=1;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;part=1;movable=0;resizable=0;rotatable=0;shape=mxgraph.ibm_cloud.microservices--1" vertex="1" parent="yyHypevR-P8oDc50jZxH-17">
+          <mxGeometry width="24" height="24" relative="1" as="geometry">
+            <mxPoint x="12" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-30" value="Appointment &#xa;Service" style="shape=ellipse;fillColor=#A56EFF;aspect=fixed;resizable=0;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;fontSize=14;" vertex="1" parent="yyHypevR-P8oDc50jZxH-62">
+          <mxGeometry x="83" y="24" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-31" value="" style="fillColor=#ffffff;strokeColor=none;dashed=0;outlineConnect=0;html=1;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;part=1;movable=0;resizable=0;rotatable=0;shape=mxgraph.ibm_cloud.microservices--1" vertex="1" parent="yyHypevR-P8oDc50jZxH-30">
+          <mxGeometry width="24" height="24" relative="1" as="geometry">
+            <mxPoint x="12" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-32" value="Patient&#xa;Service" style="shape=ellipse;fillColor=#A56EFF;aspect=fixed;resizable=0;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;fontSize=14;" vertex="1" parent="yyHypevR-P8oDc50jZxH-62">
+          <mxGeometry x="227" y="25" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-33" value="" style="fillColor=#ffffff;strokeColor=none;dashed=0;outlineConnect=0;html=1;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;part=1;movable=0;resizable=0;rotatable=0;shape=mxgraph.ibm_cloud.microservices--1" vertex="1" parent="yyHypevR-P8oDc50jZxH-32">
+          <mxGeometry width="24" height="24" relative="1" as="geometry">
+            <mxPoint x="12" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-34" value="Practitioner&#xa;Service" style="shape=ellipse;fillColor=#A56EFF;aspect=fixed;resizable=0;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;strokeColor=none;fontSize=14;" vertex="1" parent="yyHypevR-P8oDc50jZxH-62">
+          <mxGeometry x="375" y="25" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="yyHypevR-P8oDc50jZxH-35" value="" style="fillColor=#ffffff;strokeColor=none;dashed=0;outlineConnect=0;html=1;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;part=1;movable=0;resizable=0;rotatable=0;shape=mxgraph.ibm_cloud.microservices--1" vertex="1" parent="yyHypevR-P8oDc50jZxH-34">
+          <mxGeometry width="24" height="24" relative="1" as="geometry">
+            <mxPoint x="12" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

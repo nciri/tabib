@@ -90,7 +90,7 @@ export default function Appointments() {
   const handleCreateAppointment = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/appointments', {
+      const response = await fetch('http://localhost:5000/appointment/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ export default function Appointments() {
 
   const handleStatusUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/appointments/${selectedAppointment.id}/status`, {
+      const response = await fetch(`http://localhost:5001/api/appointment/${selectedAppointment.id}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

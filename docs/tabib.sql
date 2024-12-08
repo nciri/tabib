@@ -1,171 +1,148 @@
--- Base de données PostgreSQL pour une application de type Doctolib
-
--- Table des utilisateurs (patients, praticiens, et personnel)
+-- Table users
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    role VARCHAR(20) CHECK (role IN ('patient', 'praticien', 'admin', 'assistant')) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    phone VARCHAR(20),
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    email VARCHAR(255),
+    phone VARCHAR(15),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table des praticiens
-CREATE TABLE practitioners (
-    practitioner_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    specialty VARCHAR(100) NOT NULL,
-    location VARCHAR(100),
-    bio TEXT,
-    experience_years INT CHECK (experience_years >= 0),
-    consultation_fee DECIMAL(10, 2)
-);
-
--- Table des patients
+-- Table patients
 CREATE TABLE patients (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    medical_history TEXT,
-    allergies TEXT,
-    emergency_contact VARCHAR(20)
+    user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    pseudonymized_id UUID NOT NULL,
+    name BYTEA NOT NULL,
+    address BYTEA,
+    medical_history BYTEA,
+    allergies BYTEA,
+    emergency_contact BYTEA,
+    date_of_birth DATE
 );
 
--- Table des types d'intervention (consultation, chirurgie, suivi, etc.)
+-- Table practitioners
+CREATE TABLE practitioners (
+    practitioner_id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    specialty VARCHAR(100),
+    location VARCHAR(255),
+    bio TEXT,
+    experience_years INTEGER,
+    consultation_fee NUMERIC(10, 2)
+);
+
+-- Table intervention_types
 CREATE TABLE intervention_types (
     intervention_type_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT
 );
 
--- Table associant chaque praticien avec un type d'intervention et une durée spécifique
+-- Table practitioner_interventions
 CREATE TABLE practitioner_interventions (
     practitioner_intervention_id SERIAL PRIMARY KEY,
-    practitioner_id INT REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
-    intervention_type_id INT REFERENCES intervention_types(intervention_type_id) ON DELETE CASCADE,
-    duration INT CHECK (duration > 0), -- Durée spécifique de l'intervention pour ce praticien en minutes
-    cost DECIMAL(10, 2) -- Optionnel : Coût spécifique de l'intervention pour ce praticien
+    practitioner_id INTEGER NOT NULL REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
+    intervention_type_id INTEGER NOT NULL REFERENCES intervention_types(intervention_type_id) ON DELETE CASCADE,
+    duration_minutes INTEGER NOT NULL,
+    cost NUMERIC(10, 2) NOT NULL
 );
 
--- Modification de la table des rendez-vous pour inclure le type d'intervention et la durée
-CREATE TABLE appointments (
-    appointment_id SERIAL PRIMARY KEY,
-    patient_id INT REFERENCES patients(patient_id) ON DELETE CASCADE,
-    practitioner_id INT REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
-    intervention_type_id INT REFERENCES intervention_types(intervention_type_id) ON DELETE CASCADE,
-    appointment_date TIMESTAMP NOT NULL,
-    duration INT CHECK (duration > 0), -- Durée de l'intervention pour cet appointement
-    status VARCHAR(20) CHECK (status IN ('scheduled', 'cancelled', 'completed', 'missed')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
--- Table pour la facturation
-CREATE TABLE invoices (
-    invoice_id SERIAL PRIMARY KEY,
-    appointment_id INT REFERENCES appointments(appointment_id) ON DELETE CASCADE,
-    amount DECIMAL(10, 2) NOT NULL,
-    status VARCHAR(20) CHECK (status IN ('paid', 'pending', 'cancelled')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Table pour les paiements
-CREATE TABLE payments (
-    payment_id SERIAL PRIMARY KEY,
-    invoice_id INT REFERENCES invoices(invoice_id) ON DELETE CASCADE,
-    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    amount DECIMAL(10, 2) NOT NULL,
-    payment_method VARCHAR(20),
-    status VARCHAR(20) CHECK (status IN ('success', 'failed'))
-);
-
--- Table des notifications
-CREATE TABLE notifications (
-    notification_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    message TEXT NOT NULL,
-    is_read BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Table de l’agenda des praticiens
+-- Table schedules
 CREATE TABLE schedules (
     schedule_id SERIAL PRIMARY KEY,
-    practitioner_id INT REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
+    practitioner_id INTEGER NOT NULL REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
     unavailable_date DATE NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL
 );
 
--- Table des documents médicaux
+-- Table appointments
+CREATE TABLE appointments (
+    appointment_id SERIAL PRIMARY KEY,
+    patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+    practitioner_id INTEGER NOT NULL REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
+    intervention_type_id INTEGER NOT NULL REFERENCES intervention_types(intervention_type_id) ON DELETE CASCADE,
+    appointment_date TIMESTAMP NOT NULL,
+    duration INTEGER NOT NULL,
+    status VARCHAR(20) DEFAULT 'pending',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table invoices
+CREATE TABLE invoices (
+    invoice_id SERIAL PRIMARY KEY,
+    appointment_id INTEGER NOT NULL REFERENCES appointments(appointment_id) ON DELETE CASCADE,
+    amount NUMERIC(10, 2) NOT NULL,
+    status VARCHAR(20) DEFAULT 'unpaid',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table payments
+CREATE TABLE payments (
+    payment_id SERIAL PRIMARY KEY,
+    invoice_id INTEGER NOT NULL REFERENCES invoices(invoice_id) ON DELETE CASCADE,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    amount NUMERIC(10, 2) NOT NULL,
+    payment_method VARCHAR(20),
+    status VARCHAR(20) DEFAULT 'completed'
+);
+
+-- Table prescriptions
+CREATE TABLE prescriptions (
+    id SERIAL PRIMARY KEY,
+    appointment_id INTEGER NOT NULL REFERENCES appointments(appointment_id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    is_signed BOOLEAN NOT NULL DEFAULT FALSE,
+    external_code VARCHAR(50),
+    external_notes TEXT,
+    external_stamp TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table prescription_medications
+CREATE TABLE prescription_medications (
+    medication_id SERIAL PRIMARY KEY,
+    prescription_id INTEGER NOT NULL REFERENCES prescriptions(id) ON DELETE CASCADE,
+    drug_name VARCHAR(100) NOT NULL,
+    dosage VARCHAR(50),
+    frequency VARCHAR(50),
+    duration VARCHAR(50),
+    instructions TEXT
+);
+
+-- Table medical_documents
 CREATE TABLE medical_documents (
     document_id SERIAL PRIMARY KEY,
-    patient_id INT REFERENCES patients(patient_id) ON DELETE CASCADE,
-    appointment_id INT REFERENCES appointments(appointment_id),
+    patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+    appointment_id INTEGER REFERENCES appointments(appointment_id) ON DELETE CASCADE,
     document_type VARCHAR(50),
     file_path VARCHAR(255) NOT NULL,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table de recherche des praticiens (historique de recherche)
-CREATE TABLE practitioner_search (
-    search_id SERIAL PRIMARY KEY,
-    patient_id INT REFERENCES patients(patient_id),
-    search_term VARCHAR(100),
-    search_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Table d'analytique (rapports et statistiques)
-CREATE TABLE analytics (
-    analytic_id SERIAL PRIMARY KEY,
-    metric VARCHAR(50) NOT NULL,
-    value INT NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
+-- Table practitioners_assistants
 CREATE TABLE practitioners_assistants (
-    practitioner_id INT NOT NULL,
-    assistant_id INT NOT NULL,
-    PRIMARY KEY (practitioner_id, assistant_id),
-    FOREIGN KEY (practitioner_id) REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
-    FOREIGN KEY (assistant_id) REFERENCES users(user_id) ON DELETE CASCADE
+    practitioner_id INTEGER NOT NULL REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
+    assistant_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    PRIMARY KEY (practitioner_id, assistant_id)
 );
 
--- Création de la table prescriptions
-CREATE TABLE prescriptions (
-    id SERIAL PRIMARY KEY,                  -- Identifiant unique de la prescription
-    appointment_id INT NOT NULL,            -- Identifiant du rendez-vous (clé étrangère)
-    content TEXT NOT NULL,                  -- Contenu de la prescription
-    is_signed BOOLEAN DEFAULT FALSE,        -- Indique si la prescription est signée
-    external_code VARCHAR(50) UNIQUE,       -- Code unique pour l'accès des tiers
-    external_notes TEXT,                    -- Notes ajoutées par des tiers
-    external_stamp BOOLEAN DEFAULT FALSE,   -- Indique si un cachet a été ajouté par un tiers
-    created_at TIMESTAMP DEFAULT NOW(),     -- Date de création
-    updated_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW(), -- Date de mise à jour
-
-    -- Contraintes de clé étrangère
-    CONSTRAINT fk_appointment FOREIGN KEY (appointment_id)
-        REFERENCES appointments (id) ON DELETE CASCADE
+-- Table assistants_practitioners
+CREATE TABLE assistants_practitioners (
+    assistant_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    practitioner_id INTEGER NOT NULL REFERENCES practitioners(practitioner_id) ON DELETE CASCADE,
+    PRIMARY KEY (assistant_id, practitioner_id)
 );
 
-CREATE TABLE IF NOT EXISTS prescription_medications
-(
-    medication_id integer NOT NULL DEFAULT nextval('prescription_medications_medication_id_seq'::regclass),
-    prescription_id integer,
-    drug_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    dosage character varying(50) COLLATE pg_catalog."default",
-    frequency character varying(50) COLLATE pg_catalog."default",
-    duration character varying(50) COLLATE pg_catalog."default",
-    instructions text COLLATE pg_catalog."default",
-    CONSTRAINT prescription_medications_pkey PRIMARY KEY (medication_id),
-    CONSTRAINT prescription_medications_prescription_id_fkey FOREIGN KEY (prescription_id)
-        REFERENCES prescriptions (prescription_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE CASCADE
+-- Table notifications
+CREATE TABLE notifications (
+    notification_id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    message BYTEA NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
--- Indexation pour optimiser les recherches
-CREATE INDEX idx_practitioner_specialty ON practitioners(specialty);
-CREATE INDEX idx_appointment_date ON appointments(appointment_date);
-CREATE INDEX idx_user_role ON users(role);
