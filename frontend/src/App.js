@@ -22,6 +22,7 @@ import ClientSignup from './pages/ClientSignup';
 import { AdminPanel } from './components/AdminPanel';
 import DoctorDetails from './pages/DoctorDetails';
 import BookAppointment from './pages/BookAppointment';
+import PractitionerSearchResults from './pages/PractitionerSearchResults';
 // Protected route component
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -134,6 +135,7 @@ function App() {
                   <Route path="/client-signup" element={<ClientSignup />} />
                   <Route path="/practitioners/:id" element={<DoctorDetails />} />
                   <Route path="/book-appointment/:id" element={<BookAppointment />} />  
+                  <Route path="/practitioners/search" element={<PractitionerSearchResults />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

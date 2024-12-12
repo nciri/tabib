@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Paper,
@@ -35,10 +35,26 @@ const SearchDoctor = () => {
   const { results, loading, error, searchDoctors } = useSearchDoctors();
   const navigate = useNavigate();
 
-  const handleSearch = () => {
-    if (searchTerm.trim() || location.trim()) {
+  useEffect(() => {
+    if (searchTerm.trim()) {
       searchDoctors('all', searchTerm, location);
       setShowResults(true);
+    } else {
+      setShowResults(false);
+    }
+  }, [searchTerm, location]);
+
+  const handleSearch = () => {
+    if (searchTerm.trim() || location.trim()) {
+      const searchParams = new URLSearchParams();
+      searchParams.append('type', 'all');
+      searchParams.append('term', searchTerm);
+      searchParams.append('location', location);
+      
+      navigate({
+        pathname: '/practitioners/search',
+        search: searchParams.toString()
+      });
     }
   };
 
