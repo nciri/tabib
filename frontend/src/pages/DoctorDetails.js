@@ -7,9 +7,10 @@ import {
 } from '@mui/material';
 import {
   LocationOn, Phone, Email, AccessTime, EventAvailable,
-  Star, CalendarMonth, School, WorkHistory
+  Star, CalendarMonth, School, WorkHistory, DirectionsBus, Info
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import DoctorMap from '../components/DoctorMap';
 
 const DoctorDetails = () => {
   const { id } = useParams();
@@ -21,9 +22,10 @@ const DoctorDetails = () => {
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/practitioners/${id}`);
+        const response = await fetch(`http://localhost:5002/practitioners/${id}`);
         if (!response.ok) throw new Error('Failed to fetch doctor details');
         const data = await response.json();
+        console.log('Doctor data:', data);
         setDoctor(data);
       } catch (err) {
         setError(err.message);
@@ -71,10 +73,16 @@ const DoctorDetails = () => {
                     {doctor.specialty}
                   </Typography>
                   
-                  <Box sx={{ mt: 2, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                  <Box sx={{ 
+                    mt: 2, 
+                    display: 'flex', 
+                    gap: 1, 
+                    flexWrap: 'wrap',
+                    justifyContent: 'center'
+                  }}>
                     <Chip icon={<LocationOn />} label={doctor.location} />
-                    <Chip icon={<Phone />} label={doctor.phone} />
-                    <Chip icon={<Email />} label={doctor.email} />
+                    {doctor.phone && <Chip icon={<Phone />} label={doctor.phone} />}
+                    {doctor.email && <Chip icon={<Email />} label={doctor.email} />}
                     <Chip 
                       icon={<AccessTime />}
                       label={doctor.availability}
@@ -82,7 +90,7 @@ const DoctorDetails = () => {
                     />
                   </Box>
 
-                  <Box sx={{ mt: 3 }}>
+                  <Box sx={{ mt: 3 }} display="none">
                     <Rating value={4.5} readOnly precision={0.5} />
                     <Typography variant="body2" color="text.secondary">
                       4.5 out of 5 stars (125 reviews)
@@ -93,15 +101,111 @@ const DoctorDetails = () => {
 
               <Divider sx={{ my: 4 }} />
 
-              <Box>
-                <Typography variant="h6" gutterBottom>About</Typography>
-                <Typography variant="body1" color="text.secondary" paragraph>
-                  Dr. {doctor.name} is a highly qualified {doctor.specialty} with extensive experience in treating various conditions. They are committed to providing the best possible care for their patients.
+
+
+              <Box sx={{ mt: 4 }}>
+                <Typography variant="h6" gutterBottom color="primary">Presentation</Typography>
+                <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-line' }}>
+                  {doctor.presentation || `${doctor.name} welcomes you to their practice at ${doctor.location}. 
+                  As a ${doctor.specialty}, they provide comprehensive care and treatment for various conditions.`}
                 </Typography>
               </Box>
 
               <Box sx={{ mt: 4 }}>
-                <Typography variant="h6" gutterBottom>Qualifications & Experience</Typography>
+                <Typography variant="h6" gutterBottom color="primary">Public Reception</Typography>
+                <Typography variant="body1" color="text.secondary">
+                  {doctor.publicReceptionInfo || "This healthcare professional does not accept online appointments for patients under 6 years old"}
+                </Typography>
+              </Box>
+
+              <Box sx={{ mt: 4 }}>
+                <Typography variant="h6" gutterBottom color="primary">Location and Access</Typography>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={6}>
+                    <List>
+                      <ListItem>
+                        <ListItemIcon><LocationOn /></ListItemIcon>
+                        <ListItemText 
+                          primary={`${doctor.address || '7 Rue d\'Orange'}`}
+                          secondary={`${doctor.city || '13003 Marseille'}`}
+                        />
+                      </ListItem>
+                    </List>
+
+                    <Typography variant="subtitle1" sx={{ mt: 2, mb: 1, fontWeight: 600 }} >
+                      Transportation
+                    </Typography>
+                    <List dense>
+                      {doctor.transportation?.length > 0 ? (
+                        doctor.transportation.map((transport, index) => (
+                          <ListItem key={index}>
+                            <ListItemIcon><DirectionsBus /></ListItemIcon>
+                            <ListItemText primary={transport} />
+                          </ListItem>
+                        ))
+                      ) : (
+                        <>
+                          <ListItem>
+                            <ListItemIcon><DirectionsBus /></ListItemIcon>
+                            <ListItemText primary="Bus - Jourdan Bonnardel (ligne 49)" />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemIcon><DirectionsBus /></ListItemIcon>
+                            <ListItemText primary="Bus - Place Caffo (lignes 31 et 32)" />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemIcon><DirectionsBus /></ListItemIcon>
+                            <ListItemText primary="Bus - Bernard Clovis Hugues (ligne 52)" />
+                          </ListItem>
+                        </>
+                      )}
+                    </List>
+
+                    <Typography variant="subtitle1" sx={{ mt: 2, mb: 1, fontWeight: 600 }} >
+                      Practical Information
+                    </Typography>
+                    <List dense>
+                      {doctor.practicalInfo?.length > 0 ? (
+                        doctor.practicalInfo.map((info, index) => (
+                          <ListItem key={index}>
+                            <ListItemIcon><Info /></ListItemIcon>
+                            <ListItemText primary={info} />
+                          </ListItem>
+                        ))
+                      ) : (
+                        <>
+                          <ListItem>
+                            <ListItemIcon><Info /></ListItemIcon>
+                            <ListItemText primary="1er étage sans ascenseur" />
+                          </ListItem>
+                          <ListItem>
+                            <ListItemIcon><Info /></ListItemIcon>
+                            <ListItemText primary="Parking gratuit" />
+                          </ListItem>
+                        </>
+                      )}
+                    </List>
+                  </Grid>
+
+                  <Grid item xs={12} md={6}>
+                    <Box sx={{ position: 'relative' }}>
+                      <DoctorMap address={doctor.address} city={doctor.city} />
+                      <Button
+                        variant="contained"
+                        sx={{ position: 'absolute', bottom: 16, right: 16 }}
+                        onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${doctor.address} ${doctor.city}`)}`)}
+                      >
+                        Open in Google Maps
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
+
+              
+
+              <Box sx={{ mt: 4 }}>
+                <Typography variant="h6" gutterBottom color="primary" >Qualifications & Experience</Typography>
                 <List>
                   <ListItem>
                     <ListItemIcon><School /></ListItemIcon>

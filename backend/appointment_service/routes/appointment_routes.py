@@ -1,29 +1,39 @@
 from flask import Blueprint, request, jsonify
-from services.appointment_service import AppointmentService
+from appointment_service.services.appointment_service import AppointmentService
 
-appointment_bp = Blueprint('appointments', __name__)
+appointments_bp = Blueprint('appointments_plural', __name__)
+appointment_bp = Blueprint('appointment', __name__)
+
 appointment_service = AppointmentService()
 
-@appointment_bp.route('/', methods=['GET'])
-def list_appointments():
+@appointments_bp.route('/list', methods=['GET'])
+def list():
 
-    user_id = request.args.get('user_id', type=int)
-    role = request.args.get('role', type=str)
+    # user_id = request.args.get('user_id', type=int)
+    # role = request.args.get('role', type=str)
+    user_id = 4
+    role = 'patient'
+    return appointment_service.list(user_id, role)
 
-
-    return appointment_service.get_appointments(user_id, role)
-
-@appointment_bp.route('/', methods=['POST'])
+@appointment_bp.route('/create', methods=['POST', 'OPTIONS'])
 def create_appointment():
     """
     Crée un nouveau rendez-vous après validation.
     """
+    if request.method == 'OPTIONS':
+        return '', 200  # Répond à la requête preflight avec un statut 200
     data = request.json
-    result = appointment_service.create_appointment(data)
+    user_id = data.get('user_id')  # Récupère user_id du payload
+    role = data.get('role')  # Récupère role du payload
+    
+    if not user_id or not role:
+        return jsonify({'error': 'Missing user_id or role'}), 400
+
+    result = AppointmentService.create_appointment(AppointmentService, data, user_id, role)
     return jsonify(result), 201 if result.get('success') else 400
 
 
-@appointment_bp.route("/appointments/available", methods=["GET"])
+@appointment_bp.route("/available", methods=["GET"])
 def get_available_appointments():
     """
     Endpoint pour récupérer les créneaux disponibles pour un praticien.

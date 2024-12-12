@@ -1,0 +1,57 @@
+{
+  "appointments": {
+    "GET": {
+      "/appointments": "list all appointments",
+      "/appointments/list": "list all appointments for a patient",
+      "/appointments/<practitioner_id>": "list all appointments for a practitioner",
+      "/appointments/available": "get all available appointments",
+      "/appointment/<id>": "get an appointment by id"
+    },
+    "POST": {
+      "/appointment/create": "create an appointment"
+    },
+    "PUT": {
+      "/appointment/<id>": "update an appointment"
+    },
+    "DELETE": {
+      "/appointment/<id>": "delete an appointment"
+    }
+  },
+  "practitioners": {
+    "GET": {
+      "/practitioners": "list all practitioners",
+      "/practitioners/list": "list all practitioners i had/will have an appointment with",
+      "/practitioners/search": "search practitioners",
+      "/practitioner/<id>": "get a practitioner by id",
+      "/practitioner/<id>/appointments": "get all appointments for a practitioner",
+      "/practitioner/locations": "get all locations for a practitioner"
+    },
+    "POST": {
+      "/practitioner/create": "create a practitioner",
+      "/practitioner/location/create/<id>/": "create a location for a practitioner",
+      "/practitioner/schedule/<id>/location/<location_id>": "set the schedule for a practitioner in a location"
+    },
+    "PUT": {
+      "/practitioner/<id>": "update a practitioner"
+    },
+    "DELETE": {
+      "/practitioner/<id>": "delete a practitioner"
+    }
+  },
+  "prescriptions": {
+    "GET": {
+      "/prescriptions/<patient_id>": "list all prescriptions for a patient",
+      "/prescriptions/<appointment_id>": "get a prescription by appointment",
+      "/prescriptions/search": "search prescriptions for a patient"
+    },
+    "POST": {
+      "/prescription/create": "create a prescription"
+    },
+    "PUT": {
+      "/prescription/sign/<id>": "sign a prescription",
+      "/prescription/update/<id>": "update a prescription",
+      "/prescription/archive/<id>": "archive a prescription"
+    }
+  }
+}
+
