@@ -2,9 +2,9 @@ from flask import Flask
 from flask_cors import CORS
 from common.db import db
 from common.config import Config
-from routes.practitioner_routes import practitioner_bp
-from routes.intervention_routes import intervention_bp
-from routes.schedule_routes import schedule_bp
+from practitioner_service.routes.practitioner_routes import practitioner_bp, practitioners_bp
+from practitioner_service.routes.intervention_routes import intervention_bp
+from practitioner_service.routes.schedule_routes import schedule_bp
 
 
 # Initialisation de Flask
@@ -19,7 +19,9 @@ db.init_app(app)
 
 
 # Enregistrement des routes
-app.register_blueprint(practitioner_bp, url_prefix='/practitioners')
+app.register_blueprint(practitioners_bp, url_prefix='/practitioners')
+app.register_blueprint(practitioner_bp, url_prefix='/practitioner')
+
 app.register_blueprint(intervention_bp, url_prefix='/interventions')
 app.register_blueprint(schedule_bp, url_prefix='/schedules')
 

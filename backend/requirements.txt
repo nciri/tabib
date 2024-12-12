@@ -4,3 +4,4 @@ flask_cors
 psycopg2-binary
 pytest
 pytest-mock
+setuptools>=65.0.0

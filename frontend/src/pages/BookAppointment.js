@@ -26,12 +26,12 @@ const BookAppointment = () => {
   const [consultationType, setConsultationType] = useState('');
   const [appointment, setAppointment] = useState({
     title: '',
-    date: '',
+    appointment_date: '',
     time: '',
     duration: 30,
     notes: '',
-    doctor_id: id,
-    consultation_type: '',
+    practitioner_id: id,
+    intervention_type_id: '',
     location_id: null,
     location_name: '',
     location_city: ''
@@ -56,7 +56,7 @@ const BookAppointment = () => {
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5002/practitioners/${id}`);
+        const response = await fetch(`http://localhost:5002/practitioner/${id}`);
         if (!response.ok) throw new Error('Failed to fetch doctor details');
         const data = await response.json();
         setDoctor(data);
@@ -124,12 +124,16 @@ const BookAppointment = () => {
           role: "patient"
         })
       });
-  
+
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Server Error:', errorData);
         throw new Error(errorData.message || 'Failed to book appointment');
       }
+
       const data = await response.json();
       console.log('Success:', data);
   

@@ -1,17 +1,19 @@
 from flask import Blueprint, request, jsonify
 from appointment_service.services.appointment_service import AppointmentService
 
-appointment_bp = Blueprint('appointments', __name__)
+appointments_bp = Blueprint('appointments_plural', __name__)
+appointment_bp = Blueprint('appointment', __name__)
+
 appointment_service = AppointmentService()
 
-@appointment_bp.route('/', methods=['GET'])
-def list_appointments():
+@appointments_bp.route('/list', methods=['GET'])
+def list():
 
-    user_id = request.args.get('user_id', type=int)
-    role = request.args.get('role', type=str)
-
-
-    return appointment_service.get_appointments(user_id, role)
+    # user_id = request.args.get('user_id', type=int)
+    # role = request.args.get('role', type=str)
+    user_id = 4
+    role = 'patient'
+    return appointment_service.list(user_id, role)
 
 @appointment_bp.route('/create', methods=['POST', 'OPTIONS'])
 def create_appointment():

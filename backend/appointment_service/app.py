@@ -5,13 +5,19 @@ from flask_cors import CORS
 from common.db import db
 from common.config import Config
 from common.models import Appointment, PractitionerIntervention
-from appointment_service.routes.appointment_routes import appointment_bp
+from appointment_service.routes.appointment_routes import appointment_bp, appointments_bp
 
 
 # Initialisation de Flask
 app = Flask(__name__)
 CORS(app, resources={
     r"/appointment/*": {
+        "origins": ["http://localhost:3000"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
+    },
+    r"/appointments/*": {  # Ajout du nouveau préfixe
         "origins": ["http://localhost:3000"],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
@@ -55,6 +61,7 @@ db.init_app(app)
 
 # Enregistrement des routes pour les rendez-vous
 app.register_blueprint(appointment_bp, url_prefix='/appointment')
+app.register_blueprint(appointments_bp, url_prefix='/appointments')  # Ajout de la nouvelle route
 
 if __name__ == '__main__':
     with app.app_context():

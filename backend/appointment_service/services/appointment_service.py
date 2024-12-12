@@ -13,10 +13,10 @@ class AppointmentService:
     def __init__(self):
         self.appointment_repository = AppointmentRepository()
         self.assistant_practitioner_repository = AssistantRepository()
-        self.schedule__repository = ScheduleRepository()
+        self.schedule_repository = ScheduleRepository()
 
-    def get_appointments(self, user_id, role):
-        return self.appointment_repository.get_by_role(user_id, role)
+    def list(self, user_id, role):
+        return self.appointment_repository.list(user_id, role)
 
     from datetime import datetime, timedelta
 
@@ -42,6 +42,10 @@ class AppointmentService:
         # Vérification des disponibilités et indisponibilités
         practitioner_id = data["practitioner_id"]
         duration = data.get("duration")
+        
+        # Si l'utilisateur est un assistant, vérifier qu'il est autorisé
+        if role == 'assistant' and not self.assistant_practitioner_repository.is_associated(user_id, practitioner_id):
+            return {'success': False, 'error': 'You are not authorized to create appointments for this practitioner'}
 
         if not check_availability(practitioner_id, appointment_date):
             return {"success": False, "error": "The practitioner is not available at this time"}
