@@ -4,8 +4,5 @@ flask_cors
 psycopg2-binary
 pytest
 pytest-mock
-<<<<<<< HEAD
 setuptools>=65.0.0
-=======
 requests
->>>>>>> 9212b2d (Save local changes before pulling)
