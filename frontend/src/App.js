@@ -133,7 +133,7 @@ function App() {
                   <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/client-signup" element={<ClientSignup />} />
-                  <Route path="/practitioners/:id" element={<DoctorDetails />} />
+                  <Route path="/practitioner/:id" element={<DoctorDetails />} />
                   <Route path="/book-appointment/:id" element={<BookAppointment />} />  
                   <Route path="/practitioners/search" element={<PractitionerSearchResults />} />
                   <Route path="*" element={<NotFound />} />

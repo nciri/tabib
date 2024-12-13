@@ -22,12 +22,30 @@ const DoctorDetails = () => {
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5002/practitioners/${id}`);
+        const response = await fetch(`/api/practitioner/${id}`);
         if (!response.ok) throw new Error('Failed to fetch doctor details');
         const data = await response.json();
-        console.log('Doctor data:', data);
-        setDoctor(data);
+        
+        // Transform the data to match the frontend structure
+        const transformedData = {
+          id: data.id,
+          name: data.user.username,
+          specialty: data.specialty || 'General Practitioner',
+          location: data.location || 'Not specified',
+          experience: data.experience_years || 0,
+          email: data.user.email,
+          phone: data.user.phone,
+          bio: data.bio,
+          presentation: data.bio, // Using bio for presentation
+          address: data.location, // Using location for address
+          city: '', // You might want to add this to your backend
+          consultation_fee: data.consultation_fee,
+          availability: 'Available' // You might want to add this to your backend
+        };
+        
+        setDoctor(transformedData);
       } catch (err) {
+        console.error('Fetch Error:', err);
         setError(err.message);
       } finally {
         setLoading(false);

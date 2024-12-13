@@ -18,12 +18,12 @@ app.config.from_object(Config)
 db.init_app(app)
 
 
-# Enregistrement des routes
-app.register_blueprint(practitioners_bp, url_prefix='/practitioners')
-app.register_blueprint(practitioner_bp, url_prefix='/practitioner')
+# Enregistrement des routes avec le préfixe /api
+app.register_blueprint(practitioners_bp, url_prefix='/api/practitioners')
+app.register_blueprint(practitioner_bp, url_prefix='/api/practitioner')
 
-app.register_blueprint(intervention_bp, url_prefix='/interventions')
-app.register_blueprint(schedule_bp, url_prefix='/schedules')
+app.register_blueprint(intervention_bp, url_prefix='/api/interventions')
+app.register_blueprint(schedule_bp, url_prefix='/api/schedules')
 
 if __name__ == '__main__':
     with app.app_context():

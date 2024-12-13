@@ -39,9 +39,25 @@ const PractitionerSearchResults = () => {
         if (!response.ok) throw new Error('Failed to fetch practitioners');
         
         const data = await response.json();
-        setPractitioners(data.practitioners);
-        setTotalPages(data.total_pages);
+        console.log('Search Results:', data);
+        
+        // Transform the data to match the frontend structure
+        const transformedPractitioners = (data.data || []).map(practitioner => ({
+          id: practitioner.id,
+          name: practitioner.user?.username || 'Unknown Doctor',
+          specialty: practitioner.specialty || 'General Practitioner',
+          location: practitioner.location || 'Not specified',
+          experience: practitioner.experience_years || 0,
+          availability: 'Available',
+          rating: 4.5,
+          reviewCount: 0,
+          image: null
+        }));
+        
+        setPractitioners(transformedPractitioners);
+        setTotalPages(data.total_pages || 1);
       } catch (err) {
+        console.error('Fetch Error:', err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -110,7 +126,7 @@ const PractitionerSearchResults = () => {
                   <Button 
                     variant="contained" 
                     fullWidth
-                    href={`/practitioners/${practitioner.id}`}
+                    href={`/practitioner/${practitioner.id}`}
                   >
                     View Profile
                   </Button>
